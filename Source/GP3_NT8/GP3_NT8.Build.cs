@@ -10,6 +10,8 @@ public class GP3_NT8 : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] 
 			{ 
+				"ApplicationCore",
+				"EngineSettings",
 				"Core",
 				"CoreUObject",
 				"Engine",

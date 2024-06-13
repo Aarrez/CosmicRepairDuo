@@ -6,6 +6,7 @@
 #include "Equipment/Red_EquipmentComponent.h"
 #include "Red_CharacterController.generated.h"
 
+class URedPuzzleInputDataConfig;
 class UInputDataConfig;
 class ARed_Backpack;
 
@@ -15,7 +16,6 @@ class ARed_CharacterController : public ACharacter
 	GENERATED_BODY()
 	
 public:
-	ARed_CharacterController();
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
@@ -25,37 +25,47 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="InputConfig")
 	UInputDataConfig* InputConfig = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "InputMapping")
+	UInputMappingContext* PuzzleInoutMapping = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "InputConfig")
+	URedPuzzleInputDataConfig* PuzzleInputConfig = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float SprintMaxSpeed = 600.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category="Roots")
-	TObjectPtr<USceneComponent> BackpackRoot = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, Category="Roots")
-	TObjectPtr<USceneComponent> ToolRoot = nullptr;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<URed_EquipmentComponent> EquipmentComponent = nullptr;
-
 	UFUNCTION(BlueprintCallable)
 	void SpawnBackpack(UClass* CompClass, FName CompName = NAME_None);
 	
+	int NumberOfLightsOn = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	TArray<float> DistanceChacks;
+
 protected:
 private:
 
 	UFUNCTION()
 	void GetEquipBackPack(ARed_Backpack* pack);
 
-	void HandleMovement(const FInputActionInstance& ctx);
+	UFUNCTION(BlueprintCallable)
+	void HandleMovement(const FVector2D& MoveAxis);
 
-	void HandleLook(const FInputActionInstance& ctx);
+	UFUNCTION(BlueprintCallable)
+	void HandleLook(const FVector2D& LookAxis);
 
-	void HandleJumpInput(const FInputActionInstance& ctx);
+	UFUNCTION(BlueprintCallable)
+	void HandleJumpInput(const bool& Jumped);
+	UFUNCTION(BlueprintCallable)
 	void HandleSprintInput(const FInputActionInstance& ctx);
 
+	UFUNCTION(BlueprintCallable)
 	void HandleInteractInput(const FInputActionInstance& ctx);
+	UFUNCTION(BlueprintCallable)
 	void HandleDropInput(const FInputActionInstance& ctx);
 
+	UFUNCTION(BlueprintCallable)
+	int DistanceToObjectiveCheck(AActor* Objective);
 	
 	
 };

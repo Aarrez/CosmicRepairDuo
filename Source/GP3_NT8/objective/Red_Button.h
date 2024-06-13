@@ -20,6 +20,9 @@ public:
 	void OnButtonPressd();
 
 	UFUNCTION(BlueprintImplementableEvent)
+	void OnButterRelease();
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void HandlePuzzleComplete();
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
@@ -39,6 +42,13 @@ private:
 		int32 OtherBodyIndex,
 		bool bFromSweep,
 		const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void HendleEndOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex);
 
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root = nullptr;

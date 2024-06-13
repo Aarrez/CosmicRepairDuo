@@ -12,4 +12,7 @@ class URed_ObjectiveComponent : public UActorComponent
 public:
 	UPROPERTY(BlueprintAssignable)
 	FObjectiveTriggerSignature OnConplete;
+
+	UPROPERTY(BlueprintAssignable)
+	FObjectiveTriggerSignature OnUnComplete;
 };

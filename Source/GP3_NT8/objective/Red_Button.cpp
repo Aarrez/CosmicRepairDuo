@@ -10,6 +10,7 @@ ARed_Button::ARed_Button()
 	ButtonCollider = CreateDefaultSubobject<UBoxComponent>("ButtonCollider");
 	ButtonCollider->SetupAttachment(Root);
 	ButtonCollider->OnComponentBeginOverlap.AddDynamic(this, &ARed_Button::HandleBeginOverlap);
+	ButtonCollider->OnComponentEndOverlap.AddDynamic(this, &ARed_Button::HendleEndOverlap);
 
 	ObjectiveComponent = CreateDefaultSubobject<URed_ObjectiveComponent>("ObjectiveComponent");
 }
@@ -30,5 +31,20 @@ void ARed_Button::HandleBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			}
 			
 		}
+	}
+}
+
+void ARed_Button::HendleEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (PuzzleManager)
+	{
+		OnButterRelease();
+		auto* Recever = PuzzleManager->FindComponentByClass<URed_ObjectiveComponent>();
+		if (Recever)
+		{
+			bHasBeenPressed = false;
+			Recever->OnUnComplete.Broadcast();
+		}
+
 	}
 }
